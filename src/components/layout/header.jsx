@@ -1,30 +1,34 @@
-import React, { Fragment } from "react";
+import React from "react";
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Logo from '../../assets/images/logo.png'
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    ShoppingCartOutlined, 
+    UserOutlined}
+from '@ant-design/icons'
+import BtnInputSearch from "./btnInputSearch";
 
 const Header = () => {
     return (
-        <Fragment>
-            <header class="container text-center">
-                <div class="row">
-                    <div class="col-2">
-                        <Link to='/'><img src={Logo} alt="" /></Link>
+        <div>
+            <header className="container text-center my-4 px-0">
+                <div className="row d-flex align-items-center">
+                    <div className="col-2 text-start">
+                        <Link to='/'><img src={Logo} alt="" width={100} height={40}/></Link>   
                     </div>
-                    <div class="col-8">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Bạn tìm gì hôm nay" aria-label="Recipient's username" 
-                             aria-describedby="basic-addon2"/>
-                            <button className="text-primary bg-white">Tìm kiếm</button>
+                    <div className="col-8">
+                        <BtnInputSearch size='large' txtBtn='Tìm kiếm' placeholder='Bạn tìm gì hôm nay'/> 
+                    </div>
+                    <div className="col-2 d-flex justify-content-end" style={{fontSize: '1.5rem'}}>
+                        <div style={{marginRight: '1rem'}}>
+                            <UserOutlined style={{fontSize: '2.5rem'}}/>
+                            <span>Tài khoản</span>
                         </div>
-                    </div>
-                    <div class="col-2">
-
+                        <ShoppingCartOutlined style={{fontSize: '2.5rem'}}/>
                     </div>
                 </div>
             </header>
-        </Fragment>
+        </div>
     )
 }
 

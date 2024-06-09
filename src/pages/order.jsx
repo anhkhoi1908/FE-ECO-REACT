@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 const Order = () => {
     return (
-        <Fragment>
+        <div>
             <h1>OrderPage</h1>
-        </Fragment>
+        </div>
     )
 }
 

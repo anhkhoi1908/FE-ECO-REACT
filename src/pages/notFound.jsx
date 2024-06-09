@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 const NotFound = () => {
     return (
-        <Fragment>
+        <div>
             <h1>NotFound</h1>
-        </Fragment>
+        </div>
     )
 }
 

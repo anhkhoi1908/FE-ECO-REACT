@@ -1,12 +1,12 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Header from "./header";
 
 const NotFound = ({children}) => {
     return (
-        <Fragment>
+        <div>
             <Header/>
             {children}
-        </Fragment>
+        </div>
     )
 }
 
