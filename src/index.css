@@ -11,11 +11,21 @@ html {
   font-size: 62.5%;
 }
 
+:where(.css-dev-only-do-not-override-3rel02).ant-btn-lg,
+:where(.css-dev-only-do-not-override-3rel02).ant-input-lg
+{
+  font-size: 1.4rem;
+}
+
+:where(.css-dev-only-do-not-override-3rel02).ant-input-lg {
+  padding: 0.85rem;
+}
+
 button {
   background-color: none;
   border: 0;
 }
 
-input:focus {
-  outline: none !important;
+.ant-card-body {
+  padding: 1rem !important;
 }

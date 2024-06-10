@@ -2,6 +2,7 @@ import Home from "../pages/home";
 import Order from "../pages/order";
 import Products from "../pages/products";
 import NotFound from "../pages/notFound";
+import TypeProductPage from "../pages/typeproduct";
 
 const routes = [
     {
@@ -17,6 +18,11 @@ const routes = [
     {
         path: '/products',
         page: Products,
+        isShowHeader: true
+    },
+    {
+        path: '/type',
+        page: TypeProductPage,
         isShowHeader: true
     },
     {

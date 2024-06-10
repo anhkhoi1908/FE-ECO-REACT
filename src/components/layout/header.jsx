@@ -19,7 +19,7 @@ const Header = () => {
                     <div className="col-8">
                         <BtnInputSearch size='large' txtBtn='Tìm kiếm' placeholder='Bạn tìm gì hôm nay'/> 
                     </div>
-                    <div className="col-2 d-flex justify-content-end" style={{fontSize: '1.5rem'}}>
+                    <div className="col-2 d-flex justify-content-end" style={{fontSize: '1.4rem'}}>
                         <div style={{marginRight: '1rem'}}>
                             <UserOutlined style={{fontSize: '2.5rem'}}/>
                             <span>Tài khoản</span>
