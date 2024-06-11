@@ -1,6 +1,6 @@
 import React from "react";
 import TypeProduct from "../components/layout/typeProduct";
-import { WrapperTypeProduct, WrapperSlider, WrapperButtonMore } from "../style";
+import { WrapperTypeProduct, WrapperSlider, WrapperButtonMore, WrapperProducts } from "../style";
 import SliderComponent from "../components/layout/slider";
 import slide1 from '../assets/images/slide1.jpg'
 import slide2 from '../assets/images/slide2.jpg'
@@ -25,14 +25,16 @@ const Home = () => {
             </div>  
             <div className="container px-0" style={{backgroundColor: '#efefef'}}>
                 <SliderComponent Images={[slide1, slide2, slide3]}/>
-                <div className="d-flex align-items-center mt-5" style={{gap: '1.5rem', flexWrap: 'wrap'}}>
+                <WrapperProducts>
                     <CardComponent/>
                     <CardComponent/>
                     <CardComponent/>
                     <CardComponent/>
                     <CardComponent/>
                     <CardComponent/>
-                </div> 
+                    <CardComponent/>
+                    <CardComponent/>
+                </WrapperProducts> 
                 <div className="d-flex justify-content-center">
                     <WrapperButtonMore
                         txtBtn='Xem thêm' 

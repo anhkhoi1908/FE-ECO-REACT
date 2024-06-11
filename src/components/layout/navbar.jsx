@@ -40,7 +40,7 @@ export default function NavbarComponent() {
         }
     }
     return (
-        <div style={{backgroundColor: '#fff'}}>
+        <div style={{backgroundColor: '#fff', padding: '1rem'}}>
             <WrapperLabelText>Label</WrapperLabelText>
             <WrapperContent>
                 {renderContent('text', ['Tủ Lạnh', 'TV', 'Máy Giặt'])}  

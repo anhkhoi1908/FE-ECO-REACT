@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Card } from "antd";
+import { Card, Col } from "antd";
 import ButtonComponent from "./components/layout/button";
 
 export const WrapperTypeProduct = styled.div `
@@ -60,5 +60,21 @@ export const WrapperButtonMore = styled(ButtonComponent)`
     background: rgb(13, 92, 182);
     }
 `
+export const WrapperProducts = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+`
+export const WrapperNavbar = styled(Col)`
+    backgroundColor: '#fff'; 
+    margin-right: 2rem;
+    padding: '1rem'; 
+    borderRadius: '1rem';
+    height: fit-content;
+    margin-top: 2rem;
+`
+
 
 

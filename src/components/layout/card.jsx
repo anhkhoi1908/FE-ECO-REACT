@@ -13,7 +13,7 @@ export default function CardComponent() {
   return (
     <WrapperCardStyle
         hoverable
-        style={{ width: 200}}
+        style={{ width:200}}
         cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
     >
         <StyleNameProduct>Iphone 15 ProMax</StyleNameProduct>

@@ -7,6 +7,7 @@ import {
     UserOutlined}
 from '@ant-design/icons'
 import BtnInputSearch from "./btnInputSearch";
+import { Badge } from "antd";
 
 const Header = () => {
     return (
@@ -24,7 +25,9 @@ const Header = () => {
                             <UserOutlined style={{fontSize: '2.5rem'}}/>
                             <span>Tài khoản</span>
                         </div>
-                        <ShoppingCartOutlined style={{fontSize: '2.5rem'}}/>
+                        <Badge count={4}>
+                            <ShoppingCartOutlined style={{fontSize: '2.5rem'}}/>
+                        </Badge>
                     </div>
                 </div>
             </header>
