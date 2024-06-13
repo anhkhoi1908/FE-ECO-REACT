@@ -11,11 +11,11 @@ import ButtonComponent from "../components/layout/button";
 import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const Home = () => {
-    const typeproducts = ['TV', 'Laptop', 'Tủ lạnh'];
+    const typeproducts = ['Air Force', 'Max', 'Jordan', 'Basketball', 'Nike SB', 'Dunk', 'Running', 'Lifestyle'];
     return (
         <div style={{backgroundColor: '#efefef'}}>
-            <div style={{backgroundColor: '#fff'}}> 
-                <WrapperTypeProduct className="container">
+            <div style={{backgroundColor: '#000'}}> 
+                <WrapperTypeProduct style={{margin: '0 12rem'}}>
                     {typeproducts.map((item) => {
                         return (
                             <TypeProduct name={item} key={item}></TypeProduct>
@@ -23,7 +23,7 @@ const Home = () => {
                     })}
                 </WrapperTypeProduct>
             </div>  
-            <div className="container px-0" style={{backgroundColor: '#efefef'}}>
+            <div style={{backgroundColor: '#efefef', padding: '0 12rem'}}>
                 <SliderComponent Images={[slide1, slide2, slide3]}/>
                 <WrapperProducts>
                     <CardComponent/>

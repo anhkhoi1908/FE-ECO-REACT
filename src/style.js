@@ -1,14 +1,16 @@
 import styled from "styled-components";
-import { Card, Col } from "antd";
+import { Card, Col, Image, InputNumber, Input } from "antd";
 import ButtonComponent from "./components/layout/button";
 
 export const WrapperTypeProduct = styled.div `
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 3rem;
     justify-content: flex-start;
-    border-bottom: 1px solid #000;
-    height: 3rem;
+    // border-bottom: 1px solid #000;
+    height: 4rem;
+    background-color: #000;
+    color: #fff;
 `
 export const StyleNameProduct = styled.div `
     font-weight: 400;
@@ -25,7 +27,6 @@ export const WrapperPriceText = styled.div `
     color: rgb(255, 66, 78);
     font-size: 1.6rem;
     font-weight: 500;
-
 `
 export const WrapperDiscountText = styled.span `
     color: rgb(255, 66, 78);
@@ -33,10 +34,10 @@ export const WrapperDiscountText = styled.span `
     font-weight: 500;
 `
 export const WrapperCardStyle = styled(Card) `
-    width: 200px;
+    width: 20rem;
     & img {
-        height: 200px;
-        width: 200px;
+        height: 20rem;
+        width: 20rem;
     }
 `
 export const WrapperLabelText = styled.h4`
@@ -63,6 +64,7 @@ export const WrapperButtonMore = styled(ButtonComponent)`
 export const WrapperProducts = styled.div`
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 1.5rem;
     margin-top: 2rem;
     flex-wrap: wrap;
@@ -75,6 +77,89 @@ export const WrapperNavbar = styled(Col)`
     height: fit-content;
     margin-top: 2rem;
 `
-
-
-
+export const WrapperStyleImageSmall = styled(Image)`
+    padding: 1rem;
+    border: 0.1rem solid #efefef;
+    border-radius: 1rem;
+    overflow: hidden;
+`
+export const WrapperStyleColImage = styled(Col)`
+    display: flex;
+    flex-basis: unset;
+`
+export const WrapperStyleNameProduct = styled.h1`
+    font-size: 3.6rem;
+    color: rgb(36,36,36);
+    font-weight: 300;
+    line-height: 3.2rem;
+    word-break: break-word;
+    font-weight: 400;
+    margin-bottom: 2rem;
+`
+export const WrapperStyleTextSell = styled.span`
+    font-size: 1.5rem;
+    color: rgb(120,120,120);
+    line-height: 2.4rem;
+`
+export const WrapperPriceProduct = styled.div`
+    background: rgb(250,250,250);
+    border-radius: 0.5rem;
+`
+export const WrapperPriceTextProduct = styled.h1`
+    font-size: 3.2rem;
+    font-weight: 500;
+    line-height: 4rem;
+    margin-right: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+`
+export const WrapperAddressProduct = styled.div`
+    span.address {
+        font-size: 1.5rem;
+        text-decoration: underline;
+        font-weight: 500;
+        line-height: 2.4rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsisl;
+    };
+    span.change-address {
+        color: rgb(11,116,229);
+        font-size: 1.6rem;
+        line-height: 2.4rem;
+        font-weight: 500;
+    }
+`
+export const WrapperQualityProduct = styled.div`
+    display: flex;
+    text-align: center;
+    gap: 0.4rem;
+    align-items: center;
+    width: 12rem;
+    border: 0.1rem solid #ccc;
+    border-radius: 0.4rem;
+`
+export const WrapperInputNumber = styled(InputNumber)`
+    &..ant-input-number-sm input.ant-input-number-input {
+        width: 6rem;
+        border-top: none !important;
+        border-bottom: none;
+        height: 3rem !important;
+    }
+`   
+export const WrapperContainerLeft = styled.div`
+    flex: 1;
+    padding: 4rem 4.5rem 2.4rem;
+`   
+export const WrapperContainerRight = styled.div`
+    width: 30rem;
+    background-color: #000;
+    gap: 0.5rem;
+`   
+export const WrapperTextLight = styled.span`
+    color: rgb(13,92,182);
+` 
+export const WrapperInputStyle = styled(Input)`
+    color: rgb(232,240,254);
+    outline: none;
+` 

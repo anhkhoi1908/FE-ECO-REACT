@@ -43,7 +43,7 @@ export default function NavbarComponent() {
         <div style={{backgroundColor: '#fff', padding: '1rem'}}>
             <WrapperLabelText>Label</WrapperLabelText>
             <WrapperContent>
-                {renderContent('text', ['Tủ Lạnh', 'TV', 'Máy Giặt'])}  
+                {renderContent('text', ['Air Force', 'Max', 'Jordan', 'Basketball', 'Nike SB', 'Dunk', 'Running', 'Lifestyle'])}  
                 {renderContent('checkbox', [
                     { value: 'a', label: 'A'},
                     { value: 'b', label: 'B'},

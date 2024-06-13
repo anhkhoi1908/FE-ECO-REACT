@@ -24,7 +24,7 @@ export default function TypeProductPage() {
                 <CardComponent/>
                 <CardComponent/>
             </WrapperProducts>
-            <Pagination showQuickJumper defaultCurrent={2} total={100} onChange={onChange}  className='text-center' style={{marginTop: '1rem'}}/> 
+            <Pagination showQuickJumper defaultCurrent={2} total={100} onChange={onChange}  className='text-center' style={{margin: '4rem 0'}}/> 
           </Col>
       </Row>
     </div>

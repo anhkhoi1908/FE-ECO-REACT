@@ -12,7 +12,7 @@ import { Badge } from "antd";
 const Header = () => {
     return (
         <div>
-            <header className="container text-center my-4 px-0">
+            <header className="text-center my-4" style={{padding: '0 12rem'}}>
                 <div className="row d-flex align-items-center">
                     <div className="col-2 text-start">
                         <Link to='/'><img src={Logo} alt="" width={100} height={40}/></Link>   
