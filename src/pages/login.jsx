@@ -9,12 +9,21 @@ import {
   EyeFilled, 
   EyeInvisibleFilled}
 from '@ant-design/icons'
+import * as userService from '../services/userService'
+import { useMutationHooks } from '../hooks/userMutationHook'
+import Loading from '../components/layout/loading'
 
 
 export default function Login() {
   const [isShowPassword, setIsShowPassword] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const mutation = useMutationHooks(
+    data => userService.loginUser(data)
+  ) 
+  // console.log('mutation', mutation)
+  const {data, isPending} = mutation
 
   const handleOnchangeEmail = (value) => {
     setEmail(value)
@@ -25,7 +34,10 @@ export default function Login() {
   }
 
   const handleLogin = () => {
-    console.log('log-in', email, password)
+    mutation.mutate({
+      email, password
+    })
+    // console.log('log-in', email, password)
   }
 
   const navigate = useNavigate()
@@ -67,22 +79,26 @@ export default function Login() {
             />
           </div>
 
-          <ButtonComponent
-            disabled={!email.length || !password.length}
-            onClick={handleLogin}
-            className='text-white'
-            size={40} 
-            icon={0}
-            styleButton={{
-                backgroundColor: 'rgb(255, 57, 69)', 
-                height: '4.8rem', 
-                width: '100%',
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                margin: '2.5rem 0 1rem'
-            }}
-            txtBtn={'Đăng nhập'}
-          ></ButtonComponent> 
+          {data?.status === 'ERR' && <span style={{color: 'red'}}>{data?.message}</span>}
+
+          <Loading isPending={isPending}>
+            <ButtonComponent
+              disabled={!email.length || !password.length}
+              onClick={handleLogin}
+              className='text-white'
+              size={40} 
+              icon={0}
+              styleButton={{
+                  backgroundColor: 'rgb(255, 57, 69)', 
+                  height: '4.8rem', 
+                  width: '100%',
+                  fontSize: '1.5rem',
+                  fontWeight: '700',
+                  margin: '2.5rem 0 1rem'
+              }}
+              txtBtn={'Đăng nhập'}
+            ></ButtonComponent> 
+          </Loading>
 
           <WrapperTextLight><p>Quên mật khẩu</p></WrapperTextLight>
           <p style={{fontSize: '1.3rem'}}>Bạn chưa có tài khoản? <WrapperTextLight onClick={handleNavigateSignUp}>Tạo tài khoản?</WrapperTextLight></p>

@@ -9,6 +9,9 @@ import {
   EyeFilled, 
   EyeInvisibleFilled}
 from '@ant-design/icons'
+import * as userService from '../services/userService'
+import { useMutationHooks } from '../hooks/userMutationHook'
+import Loading from '../components/layout/loading'
 
 export default function Signup() {
   const [isShowPassword, setIsShowPassword] = useState(false)
@@ -16,6 +19,12 @@ export default function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
+  const mutation = useMutationHooks(
+    data => userService.signupUser(data)
+  ) 
+  // console.log('mutation', mutation)
+  const {data, isPending} = mutation
 
   const handleOnchangeEmail = (value) => {
     setEmail(value)
@@ -30,7 +39,8 @@ export default function Signup() {
   }
 
   const hanldeSignUp = () => {
-    console.log('sign-up', email, password, confirmPassword)
+    mutation.mutate({email, password, confirmPassword})
+    // console.log('sign-up', email, password, confirmPassword)
   }
 
   const navigate = useNavigate()
@@ -49,7 +59,7 @@ export default function Signup() {
             style={{marginBottom: '1rem'}} 
             placeholder='abc@gmail.com' 
             value={email} 
-            handleOnchange={handleOnchangeEmail}
+            onChange={handleOnchangeEmail}
           />
 
           <div style={{position: 'relative', marginBottom: '1rem'}}>
@@ -68,7 +78,7 @@ export default function Signup() {
               placeholder='password' 
               type={isShowPassword ? 'text' : 'password'} 
               value={password} 
-              handleOnchange={handleOnchangePassword}
+              onChange={handleOnchangePassword}
             />
           </div>
 
@@ -88,26 +98,30 @@ export default function Signup() {
               placeholder='confirm password' 
               type={isShowConfirmPassword ? 'text' : 'password'} 
               value={confirmPassword} 
-              handleOnchange={handleOnchangeConfirmPassword}
+              onChange={handleOnchangeConfirmPassword}
             />
           </div>
 
-          <ButtonComponent
-            disabled={!email.length || !password.length || !confirmPassword.length}
-            onClick={hanldeSignUp}
-            className='text-white'
-            size={40} 
-            icon={0}
-            styleButton={{
-                backgroundColor: 'rgb(255, 57, 69)', 
-                height: '4.8rem', 
-                width: '100%',
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                margin: '2.5rem 0 1rem'
-            }}
-            txtBtn={'Đăng ký'}
-          ></ButtonComponent> 
+          {data?.status === 'ERR' && <span style={{color: 'red'}}>{data?.message}</span>}
+
+          <Loading isPending={isPending}>
+            <ButtonComponent
+              disabled={!email.length || !password.length || !confirmPassword.length}
+              onClick={hanldeSignUp}
+              className='text-white'
+              size={40} 
+              icon={0}
+              styleButton={{
+                  backgroundColor: 'rgb(255, 57, 69)', 
+                  height: '4.8rem', 
+                  width: '100%',
+                  fontSize: '1.5rem',
+                  fontWeight: '700',
+                  margin: '2.5rem 0 1rem'
+              }}
+              txtBtn={'Đăng ký'}
+            ></ButtonComponent> 
+          </Loading>
 
           <p style={{fontSize: '1.3rem'}}>Bạn đã có tài khoản? <WrapperTextLight onClick={handleNavigateLogin}>Đăng nhập</WrapperTextLight></p>
 
