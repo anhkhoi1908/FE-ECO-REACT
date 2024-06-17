@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { WrapperContainerLeft, WrapperContainerRight, WrapperTextLight } from '../style'
 import InputForm from '../components/layout/inputform'
 import ButtonComponent from '../components/layout/button'
@@ -12,6 +12,7 @@ from '@ant-design/icons'
 import * as userService from '../services/userService'
 import { useMutationHooks } from '../hooks/userMutationHook'
 import Loading from '../components/layout/loading'
+import * as message from '../components/layout/message'
 
 export default function Signup() {
   const [isShowPassword, setIsShowPassword] = useState(false)
@@ -24,7 +25,18 @@ export default function Signup() {
     data => userService.signupUser(data)
   ) 
   // console.log('mutation', mutation)
-  const {data, isPending} = mutation
+  const {data, isPending, isSuccess, isError} = mutation
+
+  // Xử lý sau khi đăng ký thành công hoặc thất bại
+  useEffect(() => {
+    if(isSuccess) {
+      message.success()
+      handleNavigateLogin()
+
+    } else if(isError) {
+      message.error()
+    }
+  }, [isSuccess, isError])
 
   const handleOnchangeEmail = (value) => {
     setEmail(value)
