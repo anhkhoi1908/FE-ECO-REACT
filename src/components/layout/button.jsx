@@ -4,13 +4,16 @@ import {
     SearchOutlined}
 from '@ant-design/icons'
 
-const ButtonComponent = ({size, styleButton, txtBtn, ...rest}) => {
+const ButtonComponent = ({size, styleButton, txtBtn, disabled, ...rest}) => {
     return (
         <div>
             <Button 
                 size={size} 
                 icon={<SearchOutlined/>} 
-                style={styleButton}
+                style={{
+                    ...styleButton,
+                    background: disabled ? '#ccc' : styleButton.backgroundColor
+                }}
                 {...rest}
             >
                 {txtBtn}

@@ -11,15 +11,15 @@ export function App() {
   //   fetchApi()
   // }, [])
 
-  const fetchApi = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/getAll`)
-    // console.log('res', res)
-    return res.data
-  }
-  // console.log('process.env.REACT_API_URL_BACKEND', process.env.REACT_APP_API_URL)
+  // const fetchApi = async () => {
+  //   const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/getAll`)
+  //   // console.log('res', res)
+  //   return res.data
+  // }
+  // // console.log('process.env.REACT_API_URL_BACKEND', process.env.REACT_APP_API_URL)
 
-  const query = useQuery({ queryKey: ['todos'], queryFn: fetchApi })
-  console.log(query)
+  // const query = useQuery({ queryKey: ['todos'], queryFn: fetchApi })
+  // console.log(query)
 
   return (
     <div>

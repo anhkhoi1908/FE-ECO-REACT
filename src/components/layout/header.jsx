@@ -1,7 +1,7 @@
 import React from "react";
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Logo from '../../assets/images/logo.png'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     ShoppingCartOutlined, 
     UserOutlined}
@@ -10,6 +10,11 @@ import BtnInputSearch from "./btnInputSearch";
 import { Badge } from "antd";
 
 const Header = () => {
+    const navigate = useNavigate()
+    const handleNavigateLogin = () => {
+        navigate('/log-in')
+    }
+    
     return (
         <div>
             <header className="text-center my-4" style={{padding: '0 12rem'}}>
@@ -21,7 +26,7 @@ const Header = () => {
                         <BtnInputSearch size='large' txtBtn='Tìm kiếm' placeholder='Bạn tìm gì hôm nay'/> 
                     </div>
                     <div className="col-2 d-flex justify-content-end" style={{fontSize: '1.4rem'}}>
-                        <div style={{marginRight: '1rem'}}>
+                        <div onClick={handleNavigateLogin} style={{marginRight: '1rem', cursor: 'pointer'}}>
                             <UserOutlined style={{fontSize: '2.5rem'}}/>
                             <span>Tài khoản</span>
                         </div>

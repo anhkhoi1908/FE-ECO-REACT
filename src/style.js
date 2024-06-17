@@ -158,8 +158,10 @@ export const WrapperContainerRight = styled.div`
 `   
 export const WrapperTextLight = styled.span`
     color: rgb(13,92,182);
+    font-size: 1.3rem;
+    cursor: pointer;
 ` 
 export const WrapperInputStyle = styled(Input)`
-    color: rgb(232,240,254);
+    color: #333;
     outline: none;
 ` 
