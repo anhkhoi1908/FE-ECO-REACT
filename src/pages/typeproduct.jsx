@@ -9,7 +9,7 @@ export default function TypeProductPage() {
 
   }
   return (
-    <div style={{padding: '0 120px', backgroundColor: '#efefef'}}>
+    <div style={{padding: '0 4rem', backgroundColor: '#efefef'}}>
       <Row className='pt-4' style={{flexWrap: 'nowrap'}}>
           <WrapperNavbar span={4}>
               <NavbarComponent/>    

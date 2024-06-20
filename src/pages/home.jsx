@@ -9,22 +9,20 @@ import CardComponent from "../components/layout/card";
 import NavbarComponent from "../components/layout/navbar";
 import ButtonComponent from "../components/layout/button";
 import { height } from "@fortawesome/free-solid-svg-icons/fa0";
+import Banner from "../components/layout/banner";
+import Banner_img from '../assets/images/slider-nike-1.png'
+import CarouselComponent from "../components/layout/carousel";
+import Nike_Just_Do_It from '../assets/images/nike-just-do-it.jpg'
 
 const Home = () => {
     const typeproducts = ['Air Force', 'Max', 'Jordan', 'Basketball', 'Nike SB', 'Dunk', 'Running', 'Lifestyle'];
     return (
-        <div style={{backgroundColor: '#efefef'}}>
-            <div style={{backgroundColor: '#000'}}> 
-                <WrapperTypeProduct style={{margin: '0 12rem'}}>
-                    {typeproducts.map((item) => {
-                        return (
-                            <TypeProduct name={item} key={item}></TypeProduct>
-                        )
-                    })}
-                </WrapperTypeProduct>
-            </div>  
-            <div style={{backgroundColor: '#efefef', padding: '0 12rem'}}>
-                <SliderComponent Images={[slide1, slide2, slide3]}/>
+        <div style={{}}>
+            <CarouselComponent/>
+            <Banner image={Banner_img}/>
+            <div style={{padding: '0 4rem', marginTop: '8rem'}}>
+                {/* <SliderComponent Images={[slide1, slide2, slide3]}/> */}
+                <Banner image={Nike_Just_Do_It}/>
                 <WrapperProducts>
                     <CardComponent/>
                     <CardComponent/>

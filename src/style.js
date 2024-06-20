@@ -6,11 +6,9 @@ export const WrapperTypeProduct = styled.div `
     display: flex;
     align-items: center;
     gap: 3rem;
-    justify-content: flex-start;
-    // border-bottom: 1px solid #000;
+    justify-content: center;
     height: 4rem;
-    background-color: #000;
-    color: #fff;
+    font-weight: 500;
 `
 export const StyleNameProduct = styled.div `
     font-weight: 400;
@@ -34,10 +32,11 @@ export const WrapperDiscountText = styled.span `
     font-weight: 500;
 `
 export const WrapperCardStyle = styled(Card) `
-    width: 20rem;
+    width: 34.8rem;
+    height: 56.4rem;
     & img {
-        height: 20rem;
-        width: 20rem;
+        height: 37.4rem;
+        width: 34.8rem;
     }
 `
 export const WrapperLabelText = styled.h4`
@@ -164,4 +163,11 @@ export const WrapperTextLight = styled.span`
 export const WrapperInputStyle = styled(Input)`
     color: #333;
     outline: none;
+` 
+export const WrapperContentPopOver = styled.p`
+    cursor: pointer;
+    &:hover {
+        background: #000;
+        color: #fff;
+    }
 ` 

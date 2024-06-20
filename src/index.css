@@ -21,6 +21,10 @@ html {
   padding: 0.85rem;
 }
 
+.ant-carousel .slick-dots li button {
+  display: none;
+}
+
 button {
   background-color: none;
   border: 0;
@@ -29,3 +33,14 @@ button {
 .ant-card-body {
   padding: 1rem !important;
 }
+
+.header-jor span {
+  border-left: 0.1rem solid #000;
+  padding-left: 0.8rem;
+}
+
+.header-jor span:first-child {
+  border: none;
+}
+
+

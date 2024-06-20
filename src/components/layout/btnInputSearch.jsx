@@ -5,18 +5,14 @@ import InputComponent from "./input";
 import ButtonComponent from "./button";
 
 const BtnInputSearch = (props) => {
-    const {size, placeholder, txtBtn, bordered='0', bgInput, bgBtn} = props
+    const {size, placeholder, txtBtn, bordered='0', bgInput, padding, bgBtn} = props
     return (
-        <div className="d-flex rounded">
+        <div className="d-flex" style={{position: 'relative'}}>
             <InputComponent 
                 size={size} 
                 placeholder={placeholder} 
-                styleInput={{backgroundColor: bgInput}}/>
-            <ButtonComponent
-                size={size} 
-                icon={<SearchOutlined/>} 
-                styleButton={{backgroundColor: bgBtn}}
-                txtBtn={txtBtn}/>
+                styleInput={{backgroundColor: bgInput, borderRadius: bordered, padding: padding}}/>
+            <SearchOutlined style={{position: 'absolute', top: '50%', left: 10, transform: 'translate(50%, -50%)'}}/>
         </div>
     )
 }

@@ -3,7 +3,7 @@ import {Input} from 'antd';
 
 const InputComponent = ({size, placeholder, bgInput, styleInput, ...rests}) => {
     return (
-        <div className='col-10'>
+        <div className=''>
             <Input 
                 size={size} 
                 placeholder={placeholder} 
