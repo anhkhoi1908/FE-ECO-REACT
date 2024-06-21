@@ -16,7 +16,7 @@ import * as userService from '../../services/userService'
 import { resetUser } from "../../redux/slice/userSlide";
 import Loading from "./loading";
 
-const Header = () => {
+const Header = ({isHiddenNike = false}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -41,7 +41,10 @@ const Header = () => {
     const content = (
         <div>
           <WrapperContentPopOver onClick={handleLogout}>Logout</WrapperContentPopOver>
-          <WrapperContentPopOver>Infor User</WrapperContentPopOver>
+          <WrapperContentPopOver onClick={() => navigate('/profile-user')}>Infor User</WrapperContentPopOver>
+          {user?.isAdmin && (
+            <WrapperContentPopOver onClick={() => navigate('/system/admin')}>System Manage</WrapperContentPopOver>
+          )}
         </div>
     )
 
@@ -58,51 +61,52 @@ const Header = () => {
                         <span>Help</span>   
                         <span>Join Us</span>
                         <Loading isPending={loading}>
-                            <div onClick={handleNavigateLogin} style={{cursor: 'pointer', alignItems: 'center'}}>
-                                {user?.name ? (
-                                    <>
-                                    <Popover content={content} trigger="hover">
+                            {user?.name ? (
+                                <>
+                                    <Popover content={content} trigger="click">
                                         <div style={{cursor: 'pointer'}}>{user.name}</div>
                                     </Popover>
-                                    </>
-                                ): ( 
-                                    <span style={{borderLeft: '0.1rem solid #000'}}>Sign In</span>
-                                )}
-                            </div>
+                                </>
+                            ): ( 
+                                <span onClick={handleNavigateLogin} style={{borderLeft: '0.1rem solid #000', cursor: 'pointer'}}>Sign In</span>
+                            )}
                         </Loading>
                     </div>
                 </div>
             </header>
             
-            <header className="text-center" style={{padding: '0 4rem'}}>
-                <div className="row d-flex align-items-center justify-content-between" style={{padding: '1rem 0'}}>
-                    <div className="col-2 text-start">
-                        <Link to='/'><img src={Logo} alt="" width={70} height={30}/></Link>   
-                    </div>
-                    
-                    <div className="col-7">
-                        <WrapperTypeProduct style={{margin: '0 4rem'}}>
-                            {typeproducts.map((item) => {
-                                return (
-                                    <TypeProduct name={item} key={item}></TypeProduct>
-                                )
-                            })}
-                        </WrapperTypeProduct>
-                    </div>
+            {!isHiddenNike && (
+                <header className="text-center" style={{padding: '0 4rem'}}>
+                    <div className="row d-flex align-items-center justify-content-between" style={{padding: '1rem 0'}}>
+                        <div className="col-2 text-start">
+                            <Link to='/'><img src={Logo} alt="" width={70} height={30}/></Link>   
+                        </div>
+                        
+                        <div className="col-7">
+                            <WrapperTypeProduct style={{margin: '0 4rem'}}>
+                                {typeproducts.map((item) => {
+                                    return (
+                                        <TypeProduct name={item} key={item}></TypeProduct>
+                                    )
+                                })}
+                            </WrapperTypeProduct>
+                        </div>
 
-                    <div className="col-3 d-flex justify-content-between" style={{fontSize: '1.4rem'}}>
-                        <div>
-                            <BtnInputSearch size='large' placeholder='Search' bgInput='#f5f5f5' bordered='100rem' padding='1rem 4rem'/> 
-                        </div>
-                        <div style={{cursor: 'pointer', display: 'flex', alignItems: 'center'}}>
-                            <HeartOutlined style={{fontSize: '2.5rem', marginRight: '1rem'}}/>
-                            <Badge count={4}>
-                                <ShoppingCartOutlined style={{fontSize: '2.5rem'}}/>
-                            </Badge>
+                        <div className="col-3 d-flex justify-content-between" style={{fontSize: '1.4rem'}}>
+                            <div>
+                                <BtnInputSearch size='large' placeholder='Search' bgInput='#f5f5f5' bordered='100rem' padding='1rem 4rem'/> 
+                            </div>
+                            <div style={{cursor: 'pointer', display: 'flex', alignItems: 'center'}}>
+                                <HeartOutlined style={{fontSize: '2.5rem', marginRight: '1rem'}}/>
+                                <Badge count={4}>
+                                    <ShoppingCartOutlined style={{fontSize: '2.5rem'}}/>
+                                </Badge>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </header>
+                </header>
+
+            )}
         </div>
     )
 }

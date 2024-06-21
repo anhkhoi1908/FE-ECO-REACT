@@ -18,7 +18,7 @@ export const userSlice = createSlice({
         state.name = name || email
         state.email = email
         state.access_token = access_token  
-        state.isAdmin = true
+        state.isAdmin = isAdmin
     },
     resetUser: (state) => {
       state.name = ''
