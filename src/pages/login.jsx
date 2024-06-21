@@ -108,7 +108,7 @@ export default function Login() {
 
           {data?.status === 'ERR' && <span style={{color: 'red'}}>{data?.message}</span>}
 
-          <Loading isPending={isPending}>
+          {/* <Loading isPending={isPending}> */}
             <ButtonComponent
               disabled={!email.length || !password.length}
               onClick={handleLogin}
@@ -125,7 +125,7 @@ export default function Login() {
               }}
               txtBtn={'Đăng nhập'}
             ></ButtonComponent> 
-          </Loading>
+          {/* </Loading> */}
 
           <WrapperTextLight><p>Quên mật khẩu</p></WrapperTextLight>
           <p style={{fontSize: '1.3rem'}}>Bạn chưa có tài khoản? <WrapperTextLight onClick={handleNavigateSignUp}>Tạo tài khoản?</WrapperTextLight></p>

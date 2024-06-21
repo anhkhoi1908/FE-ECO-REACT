@@ -43,7 +43,7 @@ const Header = () => {
           <WrapperContentPopOver onClick={handleLogout}>Logout</WrapperContentPopOver>
           <WrapperContentPopOver>Infor User</WrapperContentPopOver>
         </div>
-    );
+    )
 
 
     return (
