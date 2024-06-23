@@ -2,6 +2,8 @@ import { Menu } from 'antd'
 import React, { useState } from 'react'
 import { UserOutlined, AppstoreOutlined, SettingOutlined} from '@ant-design/icons'
 import Header from '../components/layout/header';
+import AdminUser from '../components/admin/adminUser';
+import AdminPoroduct from '../components/admin/adminProduct';
 
 export default function AdminPage() {
     const items = [
@@ -9,75 +11,75 @@ export default function AdminPage() {
           key: 'users',
           icon: <UserOutlined />,
           label: 'Users',
-          children: [
-            {
-              key: '11',
-              label: 'Option 1',
-            },
-            {
-              key: '12',
-              label: 'Option 2',
-            },
-            {
-              key: '13',
-              label: 'Option 3',
-            },
-            {
-              key: '14',
-              label: 'Option 4',
-            },
-          ],
+          // children: [
+          //   {
+          //     key: '11',
+          //     label: 'Option 1',
+          //   },
+          //   {
+          //     key: '12',
+          //     label: 'Option 2',
+          //   },
+          //   {
+          //     key: '13',
+          //     label: 'Option 3',
+          //   },
+          //   {
+          //     key: '14',
+          //     label: 'Option 4',
+          //   },
+          // ],
         },
         {
             key: 'products',
             icon: <AppstoreOutlined />,
             label: 'Products',
-            children: [
-                {
-                key: '21',
-                label: 'Option 1',
-                },
-                {
-                key: '22',
-                label: 'Option 2',
-                },
-                {
-                key: '23',
-                label: 'Submenu',
-                children: [
-                    {
-                    key: '231',
-                    label: 'Option 1',
-                    },
-                    {
-                    key: '232',
-                    label: 'Option 2',
-                    },
-                    {
-                    key: '233',
-                    label: 'Option 3',
-                    },
-                ],
-                },
-                {
-                key: '24',
-                label: 'Submenu 2',
-                children: [
-                    {
-                    key: '241',
-                    label: 'Option 1',
-                    },
-                    {
-                    key: '242',
-                    label: 'Option 2',
-                    },
-                    {
-                    key: '243',
-                    label: 'Option 3',
-                    },
-                ],
-                },
-            ],
+            // children: [
+            //     {
+            //     key: '21',
+            //     label: 'Option 1',
+            //     },
+            //     {
+            //     key: '22',
+            //     label: 'Option 2',
+            //     },
+            //     {
+            //     key: '23',
+            //     label: 'Submenu',
+            //     children: [
+            //         {
+            //         key: '231',
+            //         label: 'Option 1',
+            //         },
+            //         {
+            //         key: '232',
+            //         label: 'Option 2',
+            //         },
+            //         {
+            //         key: '233',
+            //         label: 'Option 3',
+            //         },
+            //     ],
+            //     },
+            //     {
+            //     key: '24',
+            //     label: 'Submenu 2',
+            //     children: [
+            //         {
+            //         key: '241',
+            //         label: 'Option 1',
+            //         },
+            //         {
+            //         key: '242',
+            //         label: 'Option 2',
+            //         },
+            //         {
+            //         key: '243',
+            //         label: 'Option 3',
+            //         },
+            //     ],
+            //     },
+            // ],
         }
     ]; 
 
@@ -100,6 +102,21 @@ export default function AdminPage() {
     const levelKeys = getLevelKeys(items);
     const [stateOpenKeys, setStateOpenKeys] = useState(['2', '23']);
     const [keySelected, setKeySelected] = useState('')
+
+    const renderPage = (key) => {
+      switch(key) { 
+        case 'users':  
+          return (
+            <AdminUser/>
+          ) 
+        case 'products':
+          return (
+            <AdminPoroduct/>
+          ) 
+        default:
+          return <></>
+      }
+    }
 
     const onOpenChange = (openKeys) => {
         // console.log('keys', openKeys)
@@ -135,16 +152,16 @@ export default function AdminPage() {
                     mode="inline"
                     defaultSelectedKeys={['231']}
                     openKeys={stateOpenKeys}
-                    onOpenChange={onOpenChange}
+                    // onOpenChange={onOpenChange}
                     style={{
                         width: 256,
                     }}
                     items={items}
                     onClick={handleOnclick}
                 />
-                <div style={{flex: 1}}>
-                    {keySelected === '21' && <span>Key 21</span>}
-                    <span>test</span>
+                <div style={{flex: 1, padding: '1.5rem'}}>
+                    {/* {keySelected === '21' && <span>Key 21</span>} */}
+                    {renderPage(keySelected)}
                 </div>
             </div>
         </>

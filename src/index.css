@@ -35,8 +35,8 @@ button {
 }
 
 .header-jor span {
-  border-left: 0.1rem solid #000;
-  padding-left: 0.8rem;
+  /* border-left: 0.1rem solid #000; */
+  /* padding-left: 0.8rem; */
 }
 
 .header-jor span:first-child {

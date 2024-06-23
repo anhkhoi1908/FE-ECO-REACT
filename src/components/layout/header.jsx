@@ -5,7 +5,9 @@ import LogoJor from '../../assets/images/Logo-2.png'
 import { Link, useNavigate } from "react-router-dom";
 import {
     ShoppingCartOutlined, 
-    HeartOutlined}
+    HeartOutlined, 
+    UserOutlined
+}
 from '@ant-design/icons'
 import BtnInputSearch from "./btnInputSearch";
 import { Badge, Popover } from "antd";
@@ -56,10 +58,11 @@ const Header = ({isHiddenNike = false}) => {
                     <div className="col-2 text-start">
                         <Link to='/'><img src={LogoJor} alt="" width={80} height={30}/></Link>   
                     </div>
-                    <div className="col-2 d-flex justify-content-between" style={{fontSize: '1.2rem', fontWeight: '700'}}>
-                        <span>Find a Store</span>
+                    <div className="col-2 d-flex justify-content-end" style={{fontSize: '1.2rem', fontWeight: '700'}}>
+                        {/* <span>Find a Store</span>
                         <span>Help</span>   
-                        <span>Join Us</span>
+                        <span>Join Us</span> */}
+                        <UserOutlined style={{marginRight: '0.5rem'}}/>
                         <Loading isPending={loading}>
                             {user?.name ? (
                                 <>
@@ -68,7 +71,7 @@ const Header = ({isHiddenNike = false}) => {
                                     </Popover>
                                 </>
                             ): ( 
-                                <span onClick={handleNavigateLogin} style={{borderLeft: '0.1rem solid #000', cursor: 'pointer'}}>Sign In</span>
+                                <span onClick={handleNavigateLogin} style={{cursor: 'pointer'}}>Sign In</span>
                             )}
                         </Loading>
                     </div>

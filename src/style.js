@@ -170,4 +170,9 @@ export const WrapperContentPopOver = styled.p`
         background: #000;
         color: #fff;
     }
+`  
+export const WrapperHeaderAdmin = styled.h1`
+    font-size: '1.6rem';
+    color: #000;
 ` 
+
