@@ -1,7 +1,7 @@
 import React from 'react';
 import {Input} from 'antd';
 
-const InputComponent = ({size, placeholder, bgInput, styleInput, ...rests}) => {
+export default function InputComponent ({size, placeholder, bgInput, styleInput, ...rests}) {
     return (
         <div className=''>
             <Input 
@@ -13,4 +13,3 @@ const InputComponent = ({size, placeholder, bgInput, styleInput, ...rests}) => {
     );
 };
 
-export default InputComponent;

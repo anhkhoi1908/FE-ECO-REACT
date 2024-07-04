@@ -22,7 +22,7 @@ const Home = () => {
     const typeproducts = ['Air Force', 'Max', 'Jordan', 'Basketball', 'Nike SB', 'Dunk', 'Running', 'Lifestyle'];
 
     //Admin handle Products API
-    // const queryClient = new QueryClient()
+    // const queryClient = new QueryClient()    
     const fetchProductAll = async () => {
         const res = await ProductService.getAllProduct()
         console.log('res', res);
