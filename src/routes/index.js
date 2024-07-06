@@ -48,7 +48,7 @@ const routes = [
     {
         path: '/profile-user',
         page: Profile,
-        isShowHeader: false,
+        isShowHeader: true,
     },
     {
         path: '/system/admin',

@@ -171,6 +171,11 @@ export const WrapperContentPopOver = styled.p`
         color: #fff;
     }
 `  
+export const WrapperHeader = styled.h1`
+    font-size: '1.8rem';
+    color: #000;
+    margin: 0.4rem 0;
+` 
 export const WrapperHeaderAdmin = styled.h1`
     font-size: '1.6rem';
     color: #000;
@@ -187,5 +192,26 @@ export const WrapperUploadFile = styled(Upload)`
     & .ant-upload-list-item {
         display: none;
     }
+` 
+export const WrapperContentProfile = styled.div`
+    display: flex;
+    flex-direction: column;
+    border: 0.1rem solid #ccc;
+    width: 60rem;
+    margin: 0 auto;
+    padding: 3rem;
+    border-radius: 1rem;
+    gap: 2rem;
+` 
+export const WrapperLabel = styled.label`
+    font-size: 1.2rem;
+    color: #000;
+    line-height: 3rem;
+    font-weight: 600;
+` 
+export const WrapperInput = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 ` 
 

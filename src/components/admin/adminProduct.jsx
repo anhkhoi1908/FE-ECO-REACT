@@ -10,11 +10,14 @@ import { useMutationHooks } from '../../hooks/userMutationHook'
 import Loading from '../layout/loading'
 import { isPending } from '@reduxjs/toolkit'
 import { useQueries, useQuery } from '@tanstack/react-query'
+import DrawerComponent from '../layout/drawerComponent'
 
 export default function AdminPoroduct() {
 
   // Infor product neccessary
   const [isModalOpen, setIsModalOpen] = useState(false)
+  // const [rowSelected, setRowSelected] = useState('')
+  // const [isOpenDrawer, setIsOpenDrawer] = useState(false)
   const [stateProduct, setStateProduct] = useState({
     name: '',
     price: '',
@@ -52,6 +55,18 @@ export default function AdminPoroduct() {
     // console.log('res', res)
   }
 
+  // const fetchGetDetailsProduct = async () => {
+  //   const res = await productService.getDetailsProduct()
+  //   console.log('res', res)
+  // }
+
+  // const handleDetailProduct = () => {
+  //   if(rowSelected) {
+  //   fetchGetDetailsProduct()
+  // }
+  // setIsOpenDrawer(true)
+  // console.log('rowSelected', rowSelected)
+
   const {data, isPending, isSuccess, isError} = mutation
   // console.log('data', data)
   const {isPending: isPendingProducts, data: products} = useQuery({queryKey: ['products'], queryFn:getAllProducts})
@@ -59,7 +74,8 @@ export default function AdminPoroduct() {
     return (
       <div>
         <DeleteOutlined style={{cursor: 'pointer', color: 'red', fontSize: '3rem'}}/>
-        <EditOutlined style={{cursor: 'pointer', color: 'orange', fontSize: '3rem'}}/>
+        <EditOutlined style={{cursor: 'pointer', color: 'orange', fontSize: '3rem'}} />
+        {/* onClick={handleDetailProduct} */}
       </div>
     )
   }
@@ -121,7 +137,7 @@ export default function AdminPoroduct() {
     form.resetFields()
   }
 
-  console.log('stateProduct', stateProduct)
+  // console.log('stateProduct', stateProduct)
   
   // Submit send data: success & fail
   const onFinish = () => {
@@ -171,6 +187,14 @@ export default function AdminPoroduct() {
       <div style={{marginTop: '1.5rem'}}>
         <TableComponent data={dataTable} columns={columns}/>
       </div>
+
+      {/* onRow={(record, rowIndex) => {
+        return {
+          onClick: (event) => {
+            setRowSelected(record._id)
+          }, 
+        };
+      }} */}
 
       <Modal 
         title="Create new product" 
@@ -314,6 +338,142 @@ export default function AdminPoroduct() {
           </Form>
         {/* </Loading> */}
       </Modal>
+
+      {/* <DrawerComponent title="Detail product" isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="50%">
+      <Form
+            name="basic"
+            labelCol={{
+              span: 6,
+            }}
+            wrapperCol={{
+              span: 18,
+            }}
+            style={{
+              maxWidth: 600,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={onFinish}
+            // onFinishFailed={onFinishFailed}
+            autoComplete="on"
+            form={form}
+          >
+            <Form.Item
+              label="Name"
+              // name="name"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Name!',
+                },
+              ]}
+            >
+              <InputComponent value={stateProduct.name} onChange={handleOnchange} name="name"/>
+            </Form.Item>
+
+            <Form.Item
+              label="Type"
+              name="type"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Type!',
+                },
+              ]}
+            >
+              <InputComponent value={stateProduct.type} onChange={handleOnchange} name="type"/>
+            </Form.Item>
+
+            <Form.Item
+              label="Count InStock"
+              name="countInStock"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your InStock!',
+                },
+              ]}
+            >
+              <InputComponent value={stateProduct.countInStock} onChange={handleOnchange} name="countInStock"/>
+            </Form.Item>
+
+            <Form.Item
+              label="Price"
+              name="price"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Price!',
+                },
+              ]}
+            >
+              <InputComponent value={stateProduct.price} onChange={handleOnchange} name="price"/>
+            </Form.Item>
+
+            <Form.Item
+              label="Rating"
+              name="rating"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Rating!',
+                },
+              ]}
+            >
+              <InputComponent value={stateProduct.rating} onChange={handleOnchange} name="rating"/>
+            </Form.Item>
+
+            <Form.Item
+              label="Description"
+              name="description"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Description!',
+                },
+              ]}
+            >
+              <InputComponent value={stateProduct.description} onChange={handleOnchange} name="description"/>
+            </Form.Item>
+
+            <Form.Item
+              label="Image"
+              name="image"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Image!',
+                },
+              ]}
+            >
+              <WrapperUploadFile onChange={handleOnchangeAvatar}>
+                <Button>Select file</Button>
+                {stateProduct?.image && (
+                  <img src={stateProduct?.image} style={{
+                    height: '6rem',
+                    width: '6rem',
+                    borderRadius: '50%',
+                    marginLeft: '1rem',
+                    objectFit: 'cover'
+                  }}/>
+                )}
+              </WrapperUploadFile>
+            </Form.Item>
+
+            <Form.Item
+              wrapperCol={{
+                offset: 20,
+                span: 16,
+              }}
+            >
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+      </DrawerComponent> */}
     </div>
   )
 }
+
