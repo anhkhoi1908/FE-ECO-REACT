@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Logo from '../../assets/images/logo.png'
 import LogoJor from '../../assets/images/Logo-2.png'
@@ -22,6 +22,7 @@ const Header = ({isHiddenNike = false}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
+    const [userName, setUserName] = useState('')
     const handleNavigateLogin = () => {
         navigate('/log-in')
     }
@@ -40,15 +41,22 @@ const Header = ({isHiddenNike = false}) => {
         dispatch(resetUser())
         setLoading(false)
     }
+
+    useEffect(() => {
+        setUserName(user?.name)
+    }, [user.name])
+
     const content = (
         <div>
-          <WrapperContentPopOver onClick={handleLogout}>Logout</WrapperContentPopOver>
-          <WrapperContentPopOver onClick={() => navigate('/profile-user')}>Infor User</WrapperContentPopOver>
-          {user?.isAdmin && (
-            <WrapperContentPopOver onClick={() => navigate('/system/admin')}>System Manage</WrapperContentPopOver>
-          )}
+            <WrapperContentPopOver onClick={() => navigate('/profile-user')}>Infor User</WrapperContentPopOver>
+            {user?.isAdmin && (
+                <WrapperContentPopOver onClick={() => navigate('/system/admin')}>System Manage</WrapperContentPopOver>
+            )}
+            <WrapperContentPopOver onClick={handleLogout}>Logout</WrapperContentPopOver>
         </div>
     )
+
+    console.log('user', user?.name?.length ? user?.name : user?.email)
 
 
     return (
@@ -63,17 +71,17 @@ const Header = ({isHiddenNike = false}) => {
                         <span>Help</span>   
                         <span>Join Us</span> */}
                         <UserOutlined style={{marginRight: '0.5rem'}}/>
-                        <Loading isPending={loading}>
-                            {user?.name ? (
+                        {/* <Loading isPending={loading}> */}
+                            {user?.access_token ? (
                                 <>
                                     <Popover content={content} trigger="click">
-                                        <div style={{cursor: 'pointer'}}>{user.name}</div>
+                                        <div style={{cursor: 'pointer'}}>{userName?.length ? userName : user?.email}</div>
                                     </Popover>
                                 </>
                             ): ( 
                                 <span onClick={handleNavigateLogin} style={{cursor: 'pointer'}}>Sign In</span>
                             )}
-                        </Loading>
+                        {/* </Loading> */}
                     </div>
                 </div>
             </header>

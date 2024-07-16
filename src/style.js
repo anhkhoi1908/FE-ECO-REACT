@@ -32,11 +32,11 @@ export const WrapperDiscountText = styled.span `
     font-weight: 500;
 `
 export const WrapperCardStyle = styled(Card) `
-    width: 34.8rem;
+    width: 35rem;
     height: 56.4rem;
     & img {
         height: 37.4rem;
-        width: 34.8rem;
+        width: 35rem;
     }
 `
 export const WrapperLabelText = styled.h4`
@@ -166,6 +166,9 @@ export const WrapperInputStyle = styled(Input)`
 ` 
 export const WrapperContentPopOver = styled.p`
     cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0;
     &:hover {
         background: #000;
         color: #fff;
@@ -196,15 +199,16 @@ export const WrapperUploadFile = styled(Upload)`
 export const WrapperContentProfile = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     border: 0.1rem solid #ccc;
-    width: 60rem;
+    width: 64rem;
     margin: 0 auto;
     padding: 3rem;
     border-radius: 1rem;
     gap: 2rem;
 ` 
 export const WrapperLabel = styled.label`
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #000;
     line-height: 3rem;
     font-weight: 600;
@@ -213,5 +217,10 @@ export const WrapperInput = styled.div`
     display: flex;
     align-items: center;
     gap: 2rem;
+    justify-content: space-between;
 ` 
+export const WrapperUpgrade = styled.div`
+    display: flex;
+` 
+
 
