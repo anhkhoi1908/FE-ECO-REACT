@@ -30,7 +30,7 @@ const Header = ({isHiddenNike = false}) => {
 
     // Hiển thị tên người dùng sau khhi login thành công
     const user = useSelector((state) => state.user)
-    console.log('user', user)
+    // console.log('user', user)
 
     // Type product
     const typeproducts = ['Air Force', 'Max', 'Jordan', 'Basketball', 'Nike SB', 'Dunk'];
@@ -58,7 +58,7 @@ const Header = ({isHiddenNike = false}) => {
         </div>
     )
 
-    console.log('user', user?.name?.length ? user?.name : user?.email)
+    // console.log('user', user?.name?.length ? user?.name : user?.email)
 
 
     return (

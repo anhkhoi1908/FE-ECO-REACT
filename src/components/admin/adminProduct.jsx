@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { WrapperHeaderAdmin, WrapperUploadFile } from '../../style'
-import { Button, Modal, Form, Upload, message} from 'antd'
+import { Button, Modal, Form, Upload} from 'antd'
 import { PlusCircleFilled, DeleteOutlined, EditOutlined} from '@ant-design/icons'
 import TableComponent from '../layout/table'
 import InputComponent from '../layout/input'  
@@ -14,6 +14,7 @@ import DrawerComponent from '../layout/drawerComponent'
 import { render } from '@testing-library/react'
 import ModalComponent from '../layout/modalComponent'
 import { useSelector } from 'react-redux'
+import * as message from '../../components/layout/message'
 
 export default function AdminPoroduct() {
   // Infor product neccessary
@@ -52,7 +53,7 @@ export default function AdminPoroduct() {
       image,
       type,
       countInStock} = data
-    productService.createProduct({
+    const res = productService.createProduct({
       name,
       price,
       description,
@@ -60,7 +61,8 @@ export default function AdminPoroduct() {
       image,
       type,
       countInStock
-    })
+    })  
+    return res
   })
 
   const mutationDeleted = useMutationHooks(
@@ -175,7 +177,6 @@ export default function AdminPoroduct() {
     if(isSuccess && data?.status === 'OK') {
       message.success()
       handleCancel()
-      setStateProduct()
     } else if (isError) {
       message.error()
     }

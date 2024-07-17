@@ -76,7 +76,7 @@ export default function AdminPage() {
     }
 
     const handleOnclick = ({key}) => {
-        console.log('click', {key});
+        
         setKeySelected(key)
     }
 
