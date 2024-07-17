@@ -17,7 +17,7 @@ export default function CardComponent(props) {
     return (
         <WrapperCardStyle
             hoverable
-            cover={<img alt="example" src={ProductImg} />}
+            cover={<img alt="example" src={image} />}
         >
             <StyleNameProduct>{name}</StyleNameProduct>
             <WrapperReportText>

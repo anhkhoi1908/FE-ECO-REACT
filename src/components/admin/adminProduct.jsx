@@ -11,14 +11,28 @@ import Loading from '../layout/loading'
 import { isPending } from '@reduxjs/toolkit'
 import { useQueries, useQuery } from '@tanstack/react-query'
 import DrawerComponent from '../layout/drawerComponent'
+import { render } from '@testing-library/react'
+import ModalComponent from '../layout/modalComponent'
+import { useSelector } from 'react-redux'
 
 export default function AdminPoroduct() {
-
   // Infor product neccessary
   const [isModalOpen, setIsModalOpen] = useState(false)
-  // const [rowSelected, setRowSelected] = useState('')
-  // const [isOpenDrawer, setIsOpenDrawer] = useState(false)
+  const [rowSelected, setRowSelected] = useState('')
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false)
+  const [isModalOpenDelete, setIsModalOpenDelete] = useState(false)
+  const user = useSelector((state) => state?.user)
   const [stateProduct, setStateProduct] = useState({
+    name: '',
+    price: '',
+    description: '',
+    rating: '',
+    image: '',
+    type: '',
+    countInStock: ''
+  })
+
+  const [stateProductDetails, setStateProductDetails] = useState({
     name: '',
     price: '',
     description: '',
@@ -37,7 +51,7 @@ export default function AdminPoroduct() {
       rating,
       image,
       type,
-      countInStock: countInStock} = data
+      countInStock} = data
     productService.createProduct({
       name,
       price,
@@ -49,33 +63,74 @@ export default function AdminPoroduct() {
     })
   })
 
+  const mutationDeleted = useMutationHooks(
+    (data) => {
+      const {
+        id, 
+        token, 
+      } = data
+      const res = productService.deleteProduct(id, token)
+      return res
+    }
+  )
+
   const getAllProducts = async () => {
     const res = await productService.getAllProduct()
     return res
     // console.log('res', res)
   }
 
-  // const fetchGetDetailsProduct = async () => {
-  //   const res = await productService.getDetailsProduct()
-  //   console.log('res', res)
-  // }
+  const fetchGetDetailsProduct = async (rowSelected) => {
+    const res = await productService.getDetailsProduct(rowSelected)
+    if(res?.data) {
+      setStateProductDetails({
+        name: res?.data.name,
+        price: res?.data.price,
+        description: res?.data.description,
+        rating: res?.data.rating,
+        image: res?.data.image,
+        type: res?.data.type,
+        countInStock: res?.data.countInStock
+      })
+    }
+  }
 
-  // const handleDetailProduct = () => {
-  //   if(rowSelected) {
-  //   fetchGetDetailsProduct()
-  // }
-  // setIsOpenDrawer(true)
-  // console.log('rowSelected', rowSelected)
+  useEffect(() => {
+    form.setFieldsValue(stateProductDetails)
+  }, [form, setStateProductDetails])
+
+  useEffect(() => {
+    if(rowSelected) {
+      fetchGetDetailsProduct(rowSelected)
+    }
+  }, [rowSelected])
+  // console.log('StateProduct', stateProductDetails)
+
+  const handleDetailsProduct = () => {
+    setIsOpenDrawer(true)
+    // console.log('rowSelected', rowSelected)
+  }
 
   const {data, isPending, isSuccess, isError} = mutation
+  const {data: dataDeleted, isPending: isPendingDelete, isSuccess: isSuccessDeleted, isError: isErrorDeleted} = mutationDeleted
+
   // console.log('data', data)
-  const {isPending: isPendingProducts, data: products} = useQuery({queryKey: ['products'], queryFn:getAllProducts})
+  const queryProduct = useQuery({queryKey: ['products'], queryFn:getAllProducts})
+  const {isPending: isPendingProducts, data: products} = queryProduct
   const renderAction = () => {
     return (
       <div>
-        <DeleteOutlined style={{cursor: 'pointer', color: 'red', fontSize: '3rem'}}/>
-        <EditOutlined style={{cursor: 'pointer', color: 'orange', fontSize: '3rem'}} />
+        <DeleteOutlined style={{cursor: 'pointer', color: 'red', fontSize: '3rem'}} onClick={() => setIsModalOpenDelete(true)}/>
+        <EditOutlined style={{cursor: 'pointer', color: 'orange', fontSize: '3rem'}} onClick={handleDetailsProduct}/>
         {/* onClick={handleDetailProduct} */}
+      </div>
+    )
+  }
+
+  const renderImage = () => {
+    return (
+      <div>
+        <img src={stateProductDetails?.image} width={50} height={50}/>
       </div>
     )
   }
@@ -85,6 +140,11 @@ export default function AdminPoroduct() {
       title: 'Name',
       dataIndex: 'name',
       render: (text) => <a>{text}</a>,
+    },
+    {
+      title: 'Image',
+      dataIndex: 'image',
+      render: renderImage
     },
     {
       title: 'Price',
@@ -121,6 +181,26 @@ export default function AdminPoroduct() {
     }
   }, [isSuccess])
 
+  useEffect(() => {
+    if(isSuccessDeleted && dataDeleted?.status === 'OK') {
+      message.success()
+      handleCancelDelete()
+    } else if (isErrorDeleted) {
+      message.error()
+    }
+  }, [isSuccessDeleted])
+
+  const handleCancelDelete = () => {
+    setIsModalOpenDelete(false)
+  }
+
+  const handleDeleteProduct = () => {
+    mutationDeleted.mutate({id: rowSelected, token: user?.access_token}, {
+      onSettled: () => {
+        queryProduct.refetch()
+      } 
+    })
+  }
   
   // Toggle open/close modal. If cancel close modal. Else if OK send data
   const handleCancel = () => {
@@ -157,6 +237,14 @@ export default function AdminPoroduct() {
     })
   }
 
+  const handleOnchangeDetails = (e) => {
+    // console.log('e.target.name', e.target.name, e.target.value)
+    setStateProductDetails({
+      ...stateProductDetails,
+      [e.target.name]: e.target.value
+    })
+  }
+
   // Choose image product use getBase64
   const handleOnchangeAvatar = async ({fileList}) => {
     const file = fileList[0]
@@ -168,6 +256,19 @@ export default function AdminPoroduct() {
       image: file.preview
     })
   }
+
+  const handleOnchangeAvatarDetails = async ({fileList}) => {
+    const file = fileList[0]
+    if(!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
+    }
+    setStateProductDetails({
+      ...stateProductDetails, 
+      image: file.preview
+    })
+  }
+
+  
 
   return (
     <div>
@@ -185,7 +286,14 @@ export default function AdminPoroduct() {
       </div>
 
       <div style={{marginTop: '1.5rem'}}>
-        <TableComponent data={dataTable} columns={columns}/>
+        <TableComponent data={dataTable} columns={columns} onRow={(record, rowIndex) => {
+          return {
+            onClick: (event) => {
+              setRowSelected(record._id)
+            }, 
+
+          };
+        }}/>
       </div>
 
       {/* onRow={(record, rowIndex) => {
@@ -196,7 +304,7 @@ export default function AdminPoroduct() {
         };
       }} */}
 
-      <Modal 
+      <ModalComponent 
         title="Create new product" 
         open={isModalOpen} 
         // onOk={handleOk} 
@@ -225,7 +333,7 @@ export default function AdminPoroduct() {
           >
             <Form.Item
               label="Name"
-              // name="name"
+              name="name"
               rules={[
                 {
                   required: true,
@@ -337,9 +445,9 @@ export default function AdminPoroduct() {
             </Form.Item>
           </Form>
         {/* </Loading> */}
-      </Modal>
+      </ModalComponent>
 
-      {/* <DrawerComponent title="Detail product" isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="50%">
+      <DrawerComponent title="Detail product" isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="50%">
       <Form
             name="basic"
             labelCol={{
@@ -361,7 +469,7 @@ export default function AdminPoroduct() {
           >
             <Form.Item
               label="Name"
-              // name="name"
+              name="name"
               rules={[
                 {
                   required: true,
@@ -369,7 +477,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProduct.name} onChange={handleOnchange} name="name"/>
+              <InputComponent value={stateProductDetails.name} onChange={handleOnchangeDetails} name="name"/>
             </Form.Item>
 
             <Form.Item
@@ -382,7 +490,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProduct.type} onChange={handleOnchange} name="type"/>
+              <InputComponent value={stateProductDetails.type} onChange={handleOnchangeDetails} name="type"/>
             </Form.Item>
 
             <Form.Item
@@ -395,7 +503,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProduct.countInStock} onChange={handleOnchange} name="countInStock"/>
+              <InputComponent value={stateProductDetails.countInStock} onChange={handleOnchangeDetails} name="countInStock"/>
             </Form.Item>
 
             <Form.Item
@@ -408,7 +516,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProduct.price} onChange={handleOnchange} name="price"/>
+              <InputComponent value={stateProductDetails.price} onChange={handleOnchangeDetails} name="price"/>
             </Form.Item>
 
             <Form.Item
@@ -421,7 +529,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProduct.rating} onChange={handleOnchange} name="rating"/>
+              <InputComponent value={stateProductDetails.rating} onChange={handleOnchangeDetails} name="rating"/>
             </Form.Item>
 
             <Form.Item
@@ -434,7 +542,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProduct.description} onChange={handleOnchange} name="description"/>
+              <InputComponent value={stateProductDetails.description} onChange={handleOnchangeDetails} name="description"/>
             </Form.Item>
 
             <Form.Item
@@ -447,10 +555,10 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <WrapperUploadFile onChange={handleOnchangeAvatar}>
+              {/* <WrapperUploadFile onChange={handleOnchangeAvatarDetails}>
                 <Button>Select file</Button>
-                {stateProduct?.image && (
-                  <img src={stateProduct?.image} style={{
+                {stateProductDetails?.image && (
+                  <img src={stateProductDetails?.image} style={{
                     height: '6rem',
                     width: '6rem',
                     borderRadius: '50%',
@@ -458,7 +566,7 @@ export default function AdminPoroduct() {
                     objectFit: 'cover'
                   }}/>
                 )}
-              </WrapperUploadFile>
+              </WrapperUploadFile> */}
             </Form.Item>
 
             <Form.Item
@@ -472,7 +580,18 @@ export default function AdminPoroduct() {
               </Button>
             </Form.Item>
           </Form>
-      </DrawerComponent> */}
+      </DrawerComponent>
+
+      <ModalComponent 
+        title="Delete Product" 
+        open={isModalOpenDelete} 
+        onOk={handleDeleteProduct} 
+        onCancel={handleCancelDelete}
+      >
+        {/* <Loading isPending={isPending}> */}
+          <div>Do you want to delete this product?</div>
+        {/* </Loading> */}
+      </ModalComponent>
     </div>
   )
 }

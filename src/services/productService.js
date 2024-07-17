@@ -1,4 +1,5 @@
 import axios from "axios"
+import { axiosJWT } from "./userService"
 
 export const getAllProduct = async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/getAll`)
@@ -11,6 +12,16 @@ export const createProduct = async (data) => {
 }
 
 export const getDetailsProduct = async (id) => {
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/product/get-details/${id}`)
-    return res.data
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/get-details/${id}`)
+    console.log('res.data', res.data)
+    return res.data 
+}
+
+export const deleteProduct = async (id, access_token) => {
+    const res = await axiosJWT.delete(`${process.env.REACT_APP_API_URL}/product/delete/${id}`, {
+        headers: {
+            token: `Beare ${access_token}`
+        }
+    })
+    return res.data 
 }
