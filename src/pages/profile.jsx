@@ -85,7 +85,7 @@ export default function Profile() {
   const handleUpdate = () => {
     // console.log('update', name, email)
     // userService(user?.id, {name, email})
-    mutation.mutate({id: user?.id, name, email})
+    mutation.mutate({id: user?.id, name, email, phone, address, avatar})
   }
 
 

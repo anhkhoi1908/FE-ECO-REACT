@@ -23,6 +23,7 @@ const Header = ({isHiddenNike = false}) => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [userName, setUserName] = useState('')
+    const [userAvatar, setUserAvatar] = useState('')
     const handleNavigateLogin = () => {
         navigate('/log-in')
     }
@@ -44,7 +45,8 @@ const Header = ({isHiddenNike = false}) => {
 
     useEffect(() => {
         setUserName(user?.name)
-    }, [user.name])
+        setUserAvatar(user?.avatar)
+    }, [user?.name, user?.avatar])
 
     const content = (
         <div>
@@ -70,7 +72,18 @@ const Header = ({isHiddenNike = false}) => {
                         {/* <span>Find a Store</span>
                         <span>Help</span>   
                         <span>Join Us</span> */}
-                        <UserOutlined style={{marginRight: '0.5rem'}}/>
+                        {userAvatar ? (
+                            <img src={userAvatar} alt="avatar" style={{
+                                height: '2rem',
+                                width: '2rem',
+                                borderRadius: '50%',
+                                objectFit: 'cover',
+                                marginRight: '0.5rem'
+                            }}/>
+                        ) : (
+
+                            <UserOutlined style={{marginRight: '0.5rem'}}/> 
+                        )}
                         {/* <Loading isPending={loading}> */}
                             {user?.access_token ? (
                                 <>
