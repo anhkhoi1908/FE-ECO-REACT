@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { WrapperHeaderAdmin, WrapperUploadFile } from '../../style'
-import { Button, Modal, Form, Upload} from 'antd'
-import { PlusCircleFilled, DeleteOutlined, EditOutlined} from '@ant-design/icons'
+import { Button, Modal, Form, Upload, Space} from 'antd'
+import { PlusCircleFilled, DeleteOutlined, EditOutlined, SearchOutlined} from '@ant-design/icons'
 import TableComponent from '../layout/table'
 import InputComponent from '../layout/input'  
 import { getBase64 } from '../../utils'
@@ -23,6 +23,9 @@ export default function AdminPoroduct() {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false)
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false)
   const user = useSelector((state) => state?.user)
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
   const [stateProduct, setStateProduct] = useState({
     name: '',
     price: '',
@@ -137,11 +140,96 @@ export default function AdminPoroduct() {
     )
   }
 
+  // Handle search product - lib
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+  };
+
+  // Search product - lib 
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters}) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <InputComponent
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block',
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? '#1677ff' : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+  });
+
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
-      render: (text) => <a>{text}</a>,
+      sorter: (a, b) => a.name.length - b.name.length,
+      ...getColumnSearchProps('name')
     },
     {
       title: 'Image',
@@ -151,14 +239,53 @@ export default function AdminPoroduct() {
     {
       title: 'Price',
       dataIndex: 'price',
+      sorter: (a, b) => a.price - b.price,
+      // filter product - lib
+      filters: [
+        {
+          text: '>= 50',
+          value: '>=',
+        },
+        {
+          text: '<= 50',
+          value: '<=',
+        },
+      ],
+      onFilter: (value, record) => {
+        // console.log('value', {value, record})
+        if (value === '>=') {
+          return Number(record.price) >= 50
+        }
+        return Number(record.price) <= 50
+      }
     },
     {
       title: 'Rating',
       dataIndex: 'rating',
+      sorter: (a, b) => a.rating - b.rating,
+      // filter product - lib
+      filters: [
+        {
+          text: '>= 3',
+          value: '>=',
+        },
+        {
+          text: '<= 3',
+          value: '<=',
+        },
+      ],
+      onFilter: (value, record) => {
+        // console.log('value', {value, record})
+        if (value === '>=') {
+          return Number(record.rating) >= 3
+        }
+        return Number(record.rating) <= 3
+      }
     },
     {
       title: 'Type',
       dataIndex: 'type',
+      // sorter: (a, b) => a.type - b.type
     },
     {
       title: 'Action',
@@ -296,14 +423,6 @@ export default function AdminPoroduct() {
           };
         }}/>
       </div>
-
-      {/* onRow={(record, rowIndex) => {
-        return {
-          onClick: (event) => {
-            setRowSelected(record._id)
-          }, 
-        };
-      }} */}
 
       <ModalComponent 
         title="Create new product" 
