@@ -240,7 +240,7 @@ export default function AdminPoroduct() {
       title: 'Price',
       dataIndex: 'price',
       sorter: (a, b) => a.price - b.price,
-      // filter product - lib
+      // sorter product - lib
       filters: [
         {
           text: '>= 50',
@@ -263,7 +263,7 @@ export default function AdminPoroduct() {
       title: 'Rating',
       dataIndex: 'rating',
       sorter: (a, b) => a.rating - b.rating,
-      // filter product - lib
+      // sorter product - lib
       filters: [
         {
           text: '>= 3',
@@ -425,6 +425,7 @@ export default function AdminPoroduct() {
       </div>
 
       <ModalComponent 
+        forceRender
         title="Create new product" 
         open={isModalOpen} 
         // onOk={handleOk} 
