@@ -72,6 +72,16 @@ export default function AdminUser() {
      }
    )
 
+   const mutationDeletedMany = useMutationHooks(
+    (data) => {
+      const {
+        token, ...ids
+      } = data
+      const res = userService.deleteManyUser(ids, token)
+      return res
+    }
+  )
+
    const mutationUpdate = useMutationHooks(
     (data) => {
       const {
@@ -94,11 +104,11 @@ export default function AdminUser() {
      const res = await userService.getDetailUser(rowSelected)
      if(res?.data) {
        setStateUserDetails({
-         name: res?.data.name,
-         email: res?.data.email,
-         phone: res?.data.phone,
-         address: res?.data.address,
-         isAdmin: res?.data.isAdmin,
+         name: res?.data?.name,
+         email: res?.data?.email,
+         phone: res?.data?.phone,
+         address: res?.data?.address,
+         isAdmin: res?.data?.isAdmin,
        })
      }
    }
@@ -108,19 +118,28 @@ export default function AdminUser() {
    }, [form, setStateUserDetails])
  
    useEffect(() => {
-     if(rowSelected) {
+     if(rowSelected && isOpenDrawer) {
        fetchGetDetailsUser(rowSelected)
      }
-   }, [rowSelected])
+   }, [rowSelected, isOpenDrawer])
    // console.log('StateUser', stateUserDetails)
  
    const handleDetailsUser = () => {
      setIsOpenDrawer(true)
      // console.log('rowSelected', rowSelected)
    }
+
+   const handleDeletedManyUser = (ids) => {
+    mutationDeletedMany.mutate({ids: ids, token: user?.access_token}, {
+      onSettled: () => {
+        queryUser.refetch()
+      } 
+    })
+  }
  
    const {data, isPending, isSuccess, isError} = mutation
    const {data: dataDeleted, isPending: isPendingDelete, isSuccess: isSuccessDeleted, isError: isErrorDeleted} = mutationDeleted
+   const {data: dataDeletedMany, isPending: isPendingDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany} = mutationDeletedMany
  
    // console.log('data', data)
    const queryUser = useQuery({queryKey: ['users'], queryFn:getAllUsers})
@@ -287,6 +306,14 @@ export default function AdminUser() {
        message.error()
      }
    }, [isSuccess])
+
+   useEffect(() => {
+    if(isSuccessDeletedMany && dataDeletedMany?.status === 'OK') {
+      message.success()
+    } else if (isErrorDeletedMany) {
+      message.error()
+    }
+  }, [isSuccessDeletedMany])
  
    useEffect(() => {
      if(isSuccessDeleted && dataDeleted?.status === 'OK') {
@@ -387,7 +414,7 @@ export default function AdminUser() {
         </Button>
       </div>
       <div style={{marginTop: '1.5rem'}}>
-        <TableComponent data={dataTable} columns={columns} onRow={(record, rowIndex) => {
+        <TableComponent handleDeletedMany={handleDeletedManyUser} data={dataTable} columns={columns} onRow={(record, rowIndex) => {
           return {
             onClick: (event) => {
               setRowSelected(record._id)

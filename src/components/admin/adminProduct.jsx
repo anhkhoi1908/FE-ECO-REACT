@@ -16,6 +16,7 @@ import ModalComponent from '../layout/modalComponent'
 import { useSelector } from 'react-redux'
 import * as message from '../../components/layout/message'
 
+
 export default function AdminPoroduct() {
   // Infor product neccessary
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -53,7 +54,7 @@ export default function AdminPoroduct() {
       price,
       description,
       rating,
-      image,
+      image, 
       type,
       countInStock} = data
     const res = productService.createProduct({
@@ -79,6 +80,16 @@ export default function AdminPoroduct() {
     }
   )
 
+  const mutationDeletedMany = useMutationHooks(
+    (data) => {
+      const {
+        token, ...ids
+      } = data
+      const res = productService.deleteManyProduct(ids, token)
+      return res
+    }
+  )
+
   const getAllProducts = async () => {
     const res = await productService.getAllProduct()
     return res
@@ -89,13 +100,13 @@ export default function AdminPoroduct() {
     const res = await productService.getDetailsProduct(rowSelected)
     if(res?.data) {
       setStateProductDetails({
-        name: res?.data.name,
-        price: res?.data.price,
-        description: res?.data.description,
-        rating: res?.data.rating,
-        image: res?.data.image,
-        type: res?.data.type,
-        countInStock: res?.data.countInStock
+        name: res?.data?.name,
+        price: res?.data?.price,
+        description: res?.data?.description,
+        rating: res?.data?.rating,
+        image: res?.data?.image,
+        type: res?.data?.type,
+        countInStock: res?.data?.countInStock
       })
     }
   }
@@ -105,10 +116,10 @@ export default function AdminPoroduct() {
   }, [form, setStateProductDetails])
 
   useEffect(() => {
-    if(rowSelected) {
+    if(rowSelected && isOpenDrawer) {
       fetchGetDetailsProduct(rowSelected)
     }
-  }, [rowSelected])
+  }, [rowSelected, isOpenDrawer])
   // console.log('StateProduct', stateProductDetails)
 
   const handleDetailsProduct = () => {
@@ -116,8 +127,17 @@ export default function AdminPoroduct() {
     // console.log('rowSelected', rowSelected)
   }
 
+  const handleDeletedManyProduct = (ids) => {
+    mutationDeletedMany.mutate({ids: ids, token: user?.access_token}, {
+      onSettled: () => {
+        queryProduct.refetch()
+      } 
+    })
+  }
+
   const {data, isPending, isSuccess, isError} = mutation
-  const {data: dataDeleted, isPending: isPendingDelete, isSuccess: isSuccessDeleted, isError: isErrorDeleted} = mutationDeleted
+  const {data: dataDeleted, isPending: isPendingDeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted} = mutationDeleted
+  const {data: dataDeletedMany, isPending: isPendingDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany} = mutationDeletedMany
 
   // console.log('data', data)
   const queryProduct = useQuery({queryKey: ['products'], queryFn:getAllProducts})
@@ -132,13 +152,13 @@ export default function AdminPoroduct() {
     )
   }
 
-  const renderImage = () => {
-    return (
-      <div>
-        <img src={stateProductDetails?.image} width={50} height={50}/>
-      </div>
-    )
-  }
+  // const renderImage = () => {
+  //   return (
+  //     <div>
+  //       <img src={stateProductDetails?.image} width={50} height={50}/>
+  //     </div>
+  //   )
+  // }
 
   // Handle search product - lib
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -231,11 +251,11 @@ export default function AdminPoroduct() {
       sorter: (a, b) => a.name.length - b.name.length,
       ...getColumnSearchProps('name')
     },
-    {
-      title: 'Image',
-      dataIndex: 'image',
-      render: renderImage
-    },
+    // {
+    //   title: 'Image',
+    //   dataIndex: 'image',
+    //   render: renderImage
+    // },
     {
       title: 'Price',
       dataIndex: 'price',
@@ -310,6 +330,14 @@ export default function AdminPoroduct() {
   }, [isSuccess])
 
   useEffect(() => {
+    if(isSuccessDeletedMany && dataDeletedMany?.status === 'OK') {
+      message.success()
+    } else if (isErrorDeletedMany) {
+      message.error()
+    }
+  }, [isSuccessDeletedMany])
+
+  useEffect(() => {
     if(isSuccessDeleted && dataDeleted?.status === 'OK') {
       message.success()
       handleCancelDelete()
@@ -323,11 +351,11 @@ export default function AdminPoroduct() {
   }
 
   const handleDeleteProduct = () => {
-    mutationDeleted.mutate({id: rowSelected, token: user?.access_token}, {
-      onSettled: () => {
-        queryProduct.refetch()
-      } 
-    })
+      mutationDeleted.mutate({id: rowSelected, token: user?.access_token}, {
+        onSettled: () => {
+          queryProduct.refetch()
+        } 
+      })
   }
   
   // Toggle open/close modal. If cancel close modal. Else if OK send data
@@ -414,7 +442,7 @@ export default function AdminPoroduct() {
       </div>
 
       <div style={{marginTop: '1.5rem'}}>
-        <TableComponent data={dataTable} columns={columns} onRow={(record, rowIndex) => {
+        <TableComponent handleDeletedManyProduct={handleDeletedManyProduct} data={dataTable} columns={columns} onRow={(record, rowIndex) => {
           return {
             onClick: (event) => {
               setRowSelected(record._id)
@@ -598,7 +626,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProductDetails.name} onChange={handleOnchangeDetails} name="name"/>
+              <InputComponent value={stateProductDetails['name']} onChange={handleOnchangeDetails} name="name"/>
             </Form.Item>
 
             <Form.Item
@@ -611,7 +639,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProductDetails.type} onChange={handleOnchangeDetails} name="type"/>
+              <InputComponent value={stateProductDetails['type']} onChange={handleOnchangeDetails} name="type"/>
             </Form.Item>
 
             <Form.Item
@@ -624,7 +652,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProductDetails.countInStock} onChange={handleOnchangeDetails} name="countInStock"/>
+              <InputComponent value={stateProductDetails['countInStock']} onChange={handleOnchangeDetails} name="countInStock"/>
             </Form.Item>
 
             <Form.Item
@@ -637,7 +665,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProductDetails.price} onChange={handleOnchangeDetails} name="price"/>
+              <InputComponent value={stateProductDetails['price']} onChange={handleOnchangeDetails} name="price"/>
             </Form.Item>
 
             <Form.Item
@@ -650,7 +678,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProductDetails.rating} onChange={handleOnchangeDetails} name="rating"/>
+              <InputComponent value={stateProductDetails['rating']} onChange={handleOnchangeDetails} name="rating"/>
             </Form.Item>
 
             <Form.Item
@@ -663,7 +691,7 @@ export default function AdminPoroduct() {
                 },
               ]}
             >
-              <InputComponent value={stateProductDetails.description} onChange={handleOnchangeDetails} name="description"/>
+              <InputComponent value={stateProductDetails['description']} onChange={handleOnchangeDetails} name="description"/>
             </Form.Item>
 
             <Form.Item
